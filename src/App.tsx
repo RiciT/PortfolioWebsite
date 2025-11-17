@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const App = () => {
@@ -17,12 +17,40 @@ const App = () => {
     }
   };
 
+  const myExperiences = [
+    { year: '2023', title: 'Senior Software Engineer', place: 'Tech Corp', description: 'Led development team in creating scalable microservices architecture. Mentored junior developers and established best practices for code quality and testing.' },
+    { year: '2021', title: 'Software Engineer', place: 'StartUp Inc', description: 'Built full-stack web applications using React and Node.js. Implemented CI/CD pipelines and improved deployment efficiency by 40%.' },
+    { year: '2019', title: 'Junior Developer', place: 'Digital Agency', description: 'Developed responsive websites and web applications for various clients. Collaborated with designers to implement pixel-perfect interfaces.' },
+    { year: '2018', title: 'Intern', place: 'Innovation Lab', description: 'Assisted senior developers with feature development and bug fixes. Learned agile methodologies and modern development practices.' }
+  ];
+
+  const myAccomplishments = [
+    { year: '2024', title: 'Published Research Paper', place: 'Journal of Advanced Computing', description: 'Presented a novel approach to machine learning optimization that improved training efficiency by 35%. Paper was accepted for publication in a peer-reviewed journal.' },
+    { year: '2023', title: 'Conference Presentation', place: 'International Tech Conference', description: 'Presented research findings on distributed systems architecture to an audience of 500+ attendees. Received excellent feedback and engaged in meaningful discussions.' },
+    { year: '2022', title: 'Grant Award', place: 'Research Foundation', description: 'Received competitive research grant worth $50,000 for AI research project exploring novel neural network architectures.' },
+    { year: '2021', title: 'Patent Filed', place: 'USPTO', description: 'Filed patent for innovative data processing method that reduces computational complexity while maintaining accuracy.' }
+  ];
+
+  const myProjects = [
+    { title: 'E-Commerce Platform', description: 'Full-stack web application with payment integration, user authentication, and real-time inventory management', tech: ['React', 'Node.js', 'MongoDB'], image: '🛒' },
+    { title: 'Mobile Fitness App', description: 'Cross-platform mobile app for workout tracking with social features and progress analytics', tech: ['React Native', 'Firebase'], image: '💪' },
+    { title: 'Data Visualization Tool', description: 'Interactive dashboard for business analytics with customizable charts and real-time data updates', tech: ['D3.js', 'Python', 'PostgreSQL'], image: '📊' },
+    { title: 'AI Chatbot', description: 'Intelligent customer service automation using natural language processing and machine learning', tech: ['NLP', 'TensorFlow', 'FastAPI'], image: '🤖' }
+  ];
+
+  const myVolunteering = [
+    { title: 'Local Food Bank', role: 'Volunteer Coordinator', description: 'Organized weekly food distribution events serving 200+ families. Managed volunteer schedules and coordinated with local businesses for donations.', image: '🍎' },
+    { title: 'Code for Good', role: 'Programming Mentor', description: 'Taught programming fundamentals to underserved youth. Developed curriculum and provided one-on-one mentoring sessions.', image: '💻' },
+    { title: 'Environmental Club', role: 'Active Member', description: 'Participated in community cleanup initiatives and organized awareness campaigns about environmental conservation.', image: '🌱' },
+    { title: 'Animal Shelter', role: 'Weekend Helper', description: 'Cared for rescue animals, assisted with adoption events, and helped maintain shelter facilities every weekend.', image: '🐕' }
+  ];
+
   const pages = [
     { name: 'Home', component: <HomePage /> },
-    { name: 'Work Experience', component: <WorkExperiencePage /> },
-    { name: 'Scientific Accomplishments', component: <ScientificPage /> },
-    { name: 'Projects', component: <ProjectsPage /> },
-    { name: 'Volunteering', component: <VolunteeringPage /> },
+    { name: 'Work Experience', component: <TimelineTypePage experiences={ myExperiences } pageName={"Work Experience"}/> },
+    { name: 'Scientific Accomplishments', component: <TimelineTypePage experiences={myAccomplishments} pageName={"Scientific Accomplishments"}/> },
+    { name: 'Projects', component: <CardTypePage cardData={myProjects} pageName={"Projects"}/> },
+    { name: 'Volunteering', component: <CardTypePage cardData={myVolunteering} pageName={"Volunteering"}/> },
     { name: 'Skills', component: <SkillsPage /> },
     { name: 'Hobbies', component: <HobbiesPage /> }
   ];
@@ -104,19 +132,23 @@ const HomePage = () => (
     </div>
   </div>
 );
-
-const WorkExperiencePage = () => {
-  const experiences = [
-    { year: '2023', title: 'Senior Software Engineer', company: 'Tech Corp', description: 'Led development team in creating scalable microservices architecture. Mentored junior developers and established best practices for code quality and testing.' },
-    { year: '2021', title: 'Software Engineer', company: 'StartUp Inc', description: 'Built full-stack web applications using React and Node.js. Implemented CI/CD pipelines and improved deployment efficiency by 40%.' },
-    { year: '2019', title: 'Junior Developer', company: 'Digital Agency', description: 'Developed responsive websites and web applications for various clients. Collaborated with designers to implement pixel-perfect interfaces.' },
-    { year: '2018', title: 'Intern', company: 'Innovation Lab', description: 'Assisted senior developers with feature development and bug fixes. Learned agile methodologies and modern development practices.' }
-  ];
-
+// Define the type for a single experience
+type TimelinePage = {
+  year: string;
+  title: string;
+  place: string;
+  description: string;
+};
+// Define props type
+type TimelinePageProps = {
+  experiences: TimelinePage[];
+  pageName : string;
+};
+const TimelineTypePage = ({ experiences = [], pageName } : TimelinePageProps) => {
   return (
     <div className="max-w-4xl mx-auto">
       <h2 className="text-3xl font-serif font-bold text-center mb-12 text-amber-900">
-        Work Experience
+        {pageName}
       </h2>
       
       <div className="relative pl-12">
@@ -131,7 +163,7 @@ const WorkExperiencePage = () => {
             <div className="ml-4">
               <div className="text-sm font-semibold text-amber-700 mb-2">{exp.year}</div>
               <h3 className="text-xl font-bold text-gray-800 mb-1">{exp.title}</h3>
-              <p className="text-gray-600 font-medium mb-3">{exp.company}</p>
+              <p className="text-gray-600 font-medium mb-3">{exp.place}</p>
               <p className="text-gray-700 text-sm leading-relaxed">{exp.description}</p>
             </div>
           </div>
@@ -140,98 +172,41 @@ const WorkExperiencePage = () => {
     </div>
   );
 };
-
-const ScientificPage = () => {
-  const accomplishments = [
-    { year: '2024', title: 'Published Research Paper', venue: 'Journal of Advanced Computing', description: 'Presented a novel approach to machine learning optimization that improved training efficiency by 35%. Paper was accepted for publication in a peer-reviewed journal.' },
-    { year: '2023', title: 'Conference Presentation', venue: 'International Tech Conference', description: 'Presented research findings on distributed systems architecture to an audience of 500+ attendees. Received excellent feedback and engaged in meaningful discussions.' },
-    { year: '2022', title: 'Grant Award', venue: 'Research Foundation', description: 'Received competitive research grant worth $50,000 for AI research project exploring novel neural network architectures.' },
-    { year: '2021', title: 'Patent Filed', venue: 'USPTO', description: 'Filed patent for innovative data processing method that reduces computational complexity while maintaining accuracy.' }
-  ];
-
-  return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-serif font-bold text-center mb-12 text-amber-900">
-        Scientific Accomplishments
-      </h2>
-      
-      <div className="relative pl-12">
-        {/* Timeline line */}
-        <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-amber-300"></div>
-        
-        {accomplishments.map((acc, index) => (
-          <div key={index} className="relative mb-12 last:mb-0">
-            {/* Timeline dot */}
-            <div className="absolute -left-8 w-5 h-5 rounded-full bg-amber-600 border-4 border-white shadow-md"></div>
-            
-            <div className="ml-4">
-              <div className="text-sm font-semibold text-amber-700 mb-2">{acc.year}</div>
-              <h3 className="text-xl font-bold text-gray-800 mb-1">{acc.title}</h3>
-              <p className="text-gray-600 font-medium mb-3">{acc.venue}</p>
-              <p className="text-gray-700 text-sm leading-relaxed">{acc.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+// Define the type for a single experience
+type CardPage = {
+  title: string;
+  role?: string;
+  description: string;
+  tech?: string[];
+  image: string;
+};
+// Define props type
+type CardPageProps = {
+  cardData: CardPage[];
+  pageName : string;
 };
 
-const ProjectsPage = () => {
-  const projects = [
-    { title: 'E-Commerce Platform', description: 'Full-stack web application with payment integration, user authentication, and real-time inventory management', tech: ['React', 'Node.js', 'MongoDB'], image: '🛒' },
-    { title: 'Mobile Fitness App', description: 'Cross-platform mobile app for workout tracking with social features and progress analytics', tech: ['React Native', 'Firebase'], image: '💪' },
-    { title: 'Data Visualization Tool', description: 'Interactive dashboard for business analytics with customizable charts and real-time data updates', tech: ['D3.js', 'Python', 'PostgreSQL'], image: '📊' },
-    { title: 'AI Chatbot', description: 'Intelligent customer service automation using natural language processing and machine learning', tech: ['NLP', 'TensorFlow', 'FastAPI'], image: '🤖' }
-  ];
-
+const CardTypePage = ({ cardData = [], pageName} : CardPageProps) => {
   return (
     <div className="max-w-5xl mx-auto">
       <h2 className="text-3xl font-serif font-bold text-center mb-12 text-amber-900">
-        Projects
+        {pageName}
       </h2>
       
       <div className="grid grid-cols-2 gap-8">
-        {projects.map((project, index) => (
+        {cardData.map((card, index) => (
           <div key={index} className="border-2 border-gray-200 rounded-lg p-6 hover:border-amber-400 hover:shadow-lg transition-all bg-white">
-            <div className="text-5xl mb-4 text-center">{project.image}</div>
-            <h3 className="font-bold text-xl mb-3 text-gray-800">{project.title}</h3>
-            <p className="text-sm text-gray-600 mb-4 leading-relaxed">{project.description}</p>
+            <div className="text-5xl mb-4 text-center">{card.image}</div>
+            <h3 className="font-bold text-xl mb-3 text-gray-800">{card.title}</h3>
+            <p className="text-sm text-amber-700 mb-3 font-semibold">{card?.role}</p>
+            <p className="text-sm text-gray-600 mb-4 leading-relaxed">{card.description}</p>
             <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech, i) => (
+              {card.tech?.map((tech, i) => (
                 <span key={i} className="text-xs px-3 py-1 bg-amber-100 text-amber-800 rounded-full font-medium">
                   {tech}
                 </span>
               ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const VolunteeringPage = () => {
-  const volunteering = [
-    { org: 'Local Food Bank', role: 'Volunteer Coordinator', description: 'Organized weekly food distribution events serving 200+ families. Managed volunteer schedules and coordinated with local businesses for donations.', image: '🍎' },
-    { org: 'Code for Good', role: 'Programming Mentor', description: 'Taught programming fundamentals to underserved youth. Developed curriculum and provided one-on-one mentoring sessions.', image: '💻' },
-    { org: 'Environmental Club', role: 'Active Member', description: 'Participated in community cleanup initiatives and organized awareness campaigns about environmental conservation.', image: '🌱' },
-    { org: 'Animal Shelter', role: 'Weekend Helper', description: 'Cared for rescue animals, assisted with adoption events, and helped maintain shelter facilities every weekend.', image: '🐕' }
-  ];
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      <h2 className="text-3xl font-serif font-bold text-center mb-12 text-amber-900">
-        Volunteering
-      </h2>
-      
-      <div className="grid grid-cols-2 gap-8">
-        {volunteering.map((vol, index) => (
-          <div key={index} className="border-2 border-gray-200 rounded-lg p-6 hover:border-amber-400 hover:shadow-lg transition-all bg-white">
-            <div className="text-5xl mb-4 text-center">{vol.image}</div>
-            <h3 className="font-bold text-xl mb-2 text-gray-800">{vol.org}</h3>
-            <p className="text-sm text-amber-700 mb-3 font-semibold">{vol.role}</p>
-            <p className="text-sm text-gray-600 leading-relaxed">{vol.description}</p>
           </div>
         ))}
       </div>
