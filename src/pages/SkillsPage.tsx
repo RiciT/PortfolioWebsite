@@ -12,7 +12,7 @@ const SkillsPage = () => {
     },
     { 
       category: 'Software', 
-      skills: ['Unity', 'MS Visual Studio Code', 'CLion', 'MS Visual Studio .NET', 'Anaconda', 'Spyder', 'WolframAlpha Mathematica', 'MS Excel', 'Jupyter Notebooks', 'Trello', 'Jira'],
+      skills: ['Unity', 'MS Visual Studio Code', 'CLion', 'MS Visual Studio .NET', 'Anaconda', 'Spyder', 'Mathematica', 'MS Excel', 'Jupyter Notebooks', 'Trello', 'Jira'],
       image: '🛠️'
     },
     { 
